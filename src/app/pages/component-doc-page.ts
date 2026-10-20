@@ -19,6 +19,7 @@ import {
   NaGrid,
   NaHeader,
   NaHeading,
+  NaIcon,
   NaInput,
   NaLink,
   NaList,
@@ -32,12 +33,15 @@ import {
   NaSplit,
   NaStack,
   NaSwitch,
+  NaTab,
   NaTable,
   NaTabs,
   NaText,
   NaToolbar,
   NaTooltip,
+  NaUpload,
 } from 'newang';
+import type { NaIconName, NaUploadChangeEvent } from 'newang';
 import { COMPONENT_DOCS } from '../data/component-docs';
 import { DemoCard } from '../shared/demo-card';
 import { CodeBlock } from '../shared/code-block';
@@ -62,6 +66,7 @@ import { ApiTable } from '../shared/api-table';
     NaGrid,
     NaHeader,
     NaHeading,
+    NaIcon,
     NaInput,
     NaLink,
     NaList,
@@ -75,11 +80,13 @@ import { ApiTable } from '../shared/api-table';
     NaSplit,
     NaStack,
     NaSwitch,
+    NaTab,
     NaTable,
     NaTabs,
     NaText,
     NaToolbar,
     NaTooltip,
+    NaUpload,
     DemoCard,
     CodeBlock,
     ApiTable,
@@ -203,10 +210,64 @@ import { ApiTable } from '../shared/api-table';
                   <na-stack gap="md">
                     <na-radio-group
                       label="Plan"
-                      [options]="[{ value: 'free', label: 'Free' }, { value: 'pro', label: 'Pro' }]"
+                      [options]="[
+                        { value: 'free', label: 'Free' },
+                        { value: 'pro', label: 'Pro' },
+                        { value: 'scale', label: 'Scale', disabled: true }
+                      ]"
                       [(value)]="plan"
                     />
                     <na-text tone="muted" size="sm">Selected: {{ plan() }}</na-text>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="lg">
+                    <na-radio-group
+                      label="Billing cycle"
+                      orientation="inline"
+                      [options]="[{ value: 'monthly', label: 'Monthly' }, { value: 'yearly', label: 'Yearly' }]"
+                      [(value)]="cycle"
+                    />
+                    <na-radio-group
+                      label="View"
+                      variant="segmented"
+                      [options]="[
+                        { value: 'list', label: 'List' },
+                        { value: 'grid', label: 'Grid' },
+                        { value: 'board', label: 'Board', disabled: true }
+                      ]"
+                      [(value)]="view"
+                    />
+                    <na-text tone="muted" size="sm">
+                      Billing: {{ cycle() }} · view: {{ view() }}
+                    </na-text>
+                  </na-stack>
+                </docs-demo-card>
+              }
+              @case ('upload') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-upload
+                      action="https://httpbin.org/post"
+                      name="file"
+                      accept="image/*,video/*"
+                      drag
+                      (change)="onUploadChange($event)"
+                      (progress)="onUploadProgress($event)"
+                    />
+                    <na-text tone="muted" size="sm">{{ uploadStatus() }}</na-text>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="md">
+                    <na-upload
+                      action="https://httpbin.org/post"
+                      name="avatar"
+                      accept="image/*"
+                      [limit]="1"
+                      (change)="onUploadChange($event)"
+                    />
+                    <na-text tone="muted" size="sm">Accepts one image. Remove the current file before choosing another.</na-text>
                   </na-stack>
                 </docs-demo-card>
               }
@@ -298,6 +359,44 @@ import { ApiTable } from '../shared/api-table';
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
                   <na-text>Read the <na-link href="/docs/theme">theme guide</na-link> first.</na-text>
                 </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="md">
+                    <na-link
+                      href="https://example.com/share/abc123"
+                      copyable
+                      (copied)="copiedLink.set($event)"
+                    >
+                      https://example.com/share/abc123
+                    </na-link>
+                    <na-text tone="muted" size="sm">
+                      {{ copiedLink() ? 'Copied: ' + copiedLink() : 'Use the copy button to share this direct link.' }}
+                    </na-text>
+                  </na-stack>
+                </docs-demo-card>
+              }
+              @case ('icon') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-grid cols="4" gap="md">
+                    @for (icon of iconNames; track icon) {
+                      <na-row gap="sm" align="center">
+                        <na-icon [name]="icon" />
+                        <na-text size="sm" tone="muted">{{ icon }}</na-text>
+                      </na-row>
+                    }
+                  </na-grid>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-row gap="lg" align="center">
+                    <na-icon name="inbox" size="16" />
+                    <na-icon name="inbox" size="24" />
+                    <na-icon name="inbox" size="32" />
+                    <na-icon name="check" tone="success" />
+                    <na-icon name="alert" tone="warning" />
+                    <na-icon name="x" tone="danger" />
+                    <na-icon name="info" tone="info" />
+                    <na-icon name="spinner" tone="accent" />
+                  </na-row>
+                </docs-demo-card>
               }
               @case ('code') {
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
@@ -329,7 +428,7 @@ import { ApiTable } from '../shared/api-table';
               @case ('badge') {
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
                   <na-row gap="md">
-                    <na-badge tone="lime">v1.3.2</na-badge>
+                    <na-badge tone="lime">v1.4.0</na-badge>
                     <na-badge tone="neutral">draft</na-badge>
                     <na-badge tone="success">live</na-badge>
                     <na-badge tone="warning">beta</na-badge>
@@ -345,6 +444,27 @@ import { ApiTable } from '../shared/api-table';
                     <na-alert tone="success" title="Saved">Changes are live.</na-alert>
                     <na-alert tone="warning" title="Careful">This affects billing.</na-alert>
                     <na-alert tone="danger" title="Failed">Could not save.</na-alert>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="md">
+                    @if (alertOpen()) {
+                      <na-alert
+                        tone="success"
+                        showIcon
+                        title="Upload complete"
+                        description="2 files are ready to share."
+                        closable
+                        (closed)="alertOpen.set(false)"
+                      >
+                        <na-link href="/components/link" copyable>Open the files</na-link>
+                      </na-alert>
+                    } @else {
+                      <na-row gap="md" align="center">
+                        <na-text tone="muted" size="sm">Alert dismissed.</na-text>
+                        <na-button variant="secondary" size="sm" (pressed)="alertOpen.set(true)">Show it again</na-button>
+                      </na-row>
+                    }
                   </na-stack>
                 </docs-demo-card>
               }
@@ -447,6 +567,28 @@ import { ApiTable } from '../shared/api-table';
                     }
                   </na-stack>
                 </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="md">
+                    <na-tabs [(active)]="tabIndex" [(activeId)]="tabId">
+                      <na-tab id="general" title="General">
+                        <na-stack gap="md">
+                          <na-field label="Workspace name">
+                            <input naInput [value]="'Acme'" />
+                          </na-field>
+                          <na-checkbox label="Remember this panel" [(checked)]="tabRemember" />
+                          <na-text tone="muted" size="sm">Switch tabs and come back — the input and checkbox stay mounted.</na-text>
+                        </na-stack>
+                      </na-tab>
+                      <na-tab id="billing" title="Billing">
+                        <na-text tone="muted">Billing panel. Both panels stay in the DOM; only the inactive one is hidden.</na-text>
+                      </na-tab>
+                      <na-tab id="danger" title="Danger">
+                        <na-alert tone="danger" title="Danger zone" description="Deleting the workspace cannot be undone." />
+                      </na-tab>
+                    </na-tabs>
+                    <na-text tone="muted" size="sm">active={{ tabIndex() }} · activeId={{ tabId() }}</na-text>
+                  </na-stack>
+                </docs-demo-card>
               }
               @case ('tooltip') {
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
@@ -531,8 +673,38 @@ export class ComponentDocPage {
   protected readonly plan = signal<string | number | undefined>('pro');
   protected readonly modalOpen = signal(false);
   protected readonly tabIndex = signal(0);
+  protected readonly tabId = signal<string>('general');
+  protected readonly tabRemember = signal(true);
   protected readonly progress = signal(35);
   protected readonly tableFull = signal(true);
+  protected readonly copiedLink = signal('');
+  protected readonly alertOpen = signal(true);
+  protected readonly cycle = signal<string | number | undefined>('monthly');
+  protected readonly view = signal<string | number | undefined>('list');
+  protected readonly uploadStatus = signal('No file selected yet.');
+
+  protected readonly iconNames: NaIconName[] = [
+    'inbox',
+    'check',
+    'copy',
+    'x',
+    'upload',
+    'download',
+    'alert',
+    'info',
+    'chevron-up',
+    'chevron-down',
+    'chevron-left',
+    'chevron-right',
+    'spinner',
+    'file',
+    'trash',
+    'search',
+    'external-link',
+    'eye',
+    'refresh',
+    'plus',
+  ];
 
   protected readonly tableRows = computed(() =>
     this.tableFull()
@@ -545,5 +717,14 @@ export class ComponentDocPage {
 
   protected toggleTableRows(): void {
     this.tableFull.update((v) => !v);
+  }
+
+  protected onUploadChange(event: NaUploadChangeEvent): void {
+    const error = event.status === 'error' && event.error ? ` — ${event.error}` : '';
+    this.uploadStatus.set(`${event.file.name}: ${event.status}${error} (${event.percent}%)`);
+  }
+
+  protected onUploadProgress(event: NaUploadChangeEvent): void {
+    this.uploadStatus.set(`${event.file.name}: uploading ${event.percent}%`);
   }
 }

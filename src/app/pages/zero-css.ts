@@ -11,7 +11,9 @@ import { CodeBlock } from '../shared/code-block';
           <na-heading level="1">Zero-CSS usage</na-heading>
           <na-text tone="muted">
             The core promise: spacing, type, layout and form rhythm are baked into
-            na-* components. You control everything with inputs.
+            na-* components. You control everything with inputs. The only stylesheet
+            you load is the library's own theme entry — the SCSS mixin or the
+            precompiled CSS file.
           </na-text>
         </na-stack>
         <na-alert tone="success" title="The rule">
@@ -36,5 +38,5 @@ import { CodeBlock } from '../shared/code-block';
 })
 export class ZeroCssPage {
   protected readonly full = `<na-app>\n  <na-page maxWidth="md">\n    <na-stack gap="lg">\n      <na-heading level="1">Sign in</na-heading>\n      <na-field label="Email" hint="Work email" error="">\n        <input naInput placeholder="you@co.com" />\n      </na-field>\n      <na-button variant="primary">Login</na-button>\n    </na-stack>\n  </na-page>\n</na-app>`;
-  protected readonly vocab = `gap="xs|sm|md|lg|xl"      → na-stack, na-row, na-grid\nsize="sm|md|lg"          → na-button, na-text, na-avatar\ntone="…"                 → na-text, na-badge, na-alert\nvariant="…"              → na-button (primary|secondary|ghost|danger)\nmaxWidth="sm|md|lg|full" → na-page\ncols="1|2|3|4"           → na-grid\nlevel="1|2|3|4"          → na-heading`;
+  protected readonly vocab = `gap="xs|sm|md|lg|xl"      → na-stack, na-row, na-grid\nsize="sm|md|lg"          → na-button, na-text, na-avatar, na-icon\ntone="…"                 → na-text, na-badge, na-alert, na-icon\nvariant="…"              → na-button (primary|secondary|ghost|danger)\n                           na-radio-group (default|segmented)\nmaxWidth="sm|md|lg|full" → na-page, na-header, na-footer\ncols="1|2|3|4"           → na-grid\nlevel="1|2|3|4"          → na-heading\norientation="inline"     → na-radio-group\naccept="…" / drag        → na-upload\nlimit={number}           → na-upload\ncopyable / copyText      → na-link\nshowIcon / icon          → na-alert\nclosable                  → na-alert\ndescription               → na-alert`;
 }

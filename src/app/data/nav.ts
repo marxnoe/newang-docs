@@ -15,6 +15,7 @@ export const DOCS_GROUPS: DocsNavGroup[] = [
     items: [
       { slug: '', label: 'Overview' },
       { slug: 'docs/install', label: 'Install' },
+      { slug: 'docs/migration', label: 'Migrate from NG-ZORRO' },
       { slug: 'docs/zero-css', label: 'Zero-CSS usage' },
       { slug: 'docs/theme', label: 'Theme' },
     ],
@@ -31,6 +32,7 @@ export const DOCS_GROUPS: DocsNavGroup[] = [
       { slug: 'components/switch', label: 'Switch', selector: 'na-switch' },
       { slug: 'components/checkbox', label: 'Checkbox', selector: 'na-checkbox' },
       { slug: 'components/radio-group', label: 'Radio group', selector: 'na-radio-group' },
+      { slug: 'components/upload', label: 'Upload', selector: 'na-upload' },
     ],
   },
   {
@@ -52,6 +54,7 @@ export const DOCS_GROUPS: DocsNavGroup[] = [
       { slug: 'components/heading', label: 'Heading', selector: 'na-heading' },
       { slug: 'components/text', label: 'Text', selector: 'na-text' },
       { slug: 'components/link', label: 'Link', selector: 'na-link' },
+      { slug: 'components/icon', label: 'Icon', selector: 'na-icon' },
       { slug: 'components/code', label: 'Code', selector: 'na-code' },
       { slug: 'components/empty-state', label: 'Empty state', selector: 'na-empty-state' },
     ],
