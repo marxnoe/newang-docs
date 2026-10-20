@@ -21,7 +21,12 @@ npm run build    # output in dist/newang-docs/browser
   zero-CSS rule, code snippets, API rows, do/don't rules.
 - `src/app/pages/component-doc-page.ts` — renders one isolated live demo per component
   from that data (`@switch` on slug, signals for interactivity).
+- `src/app/pages/install.ts` — Sass and plain-CSS install paths.
+- `src/app/pages/migration.ts` — NG-ZORRO → newAng prop map and CVA compatibility table.
 - `src/app/shared/` — `demo-card`, `code-block` (copy button), `api-table` (backed by `na-table`).
+
+The docs site itself keeps SCSS (`src/styles.scss`) so it can demo token overrides;
+consumer apps can use either the Sass entry or the compiled `newang/styles.css`.
 
 To add a component: extend `COMPONENT_DOCS` + `DOCS_GROUPS`, add its live demo branch
 to `ComponentDocPage`, add the route automatically via `components/:slug`.

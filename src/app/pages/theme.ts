@@ -17,6 +17,14 @@ import { CodeBlock } from '../shared/code-block';
             no SCSS rebuild needed.
           </na-text>
         </na-stack>
+        <na-alert tone="info" title="No Sass? Use the compiled entry">
+          Plain-CSS apps can skip Sass entirely. Add
+          <code>node_modules/newang/styles.css</code> to the
+          <code>styles</code> array in angular.json. It contains the tokens,
+          base styles and global directive styles; component styles come with
+          the components. Keep the SCSS entry only when you need compile-time
+          <code>$na-*</code> overrides.
+        </na-alert>
         <na-table
           [columns]="[
             { key: 'token', header: 'Token' },
@@ -30,6 +38,11 @@ import { CodeBlock } from '../shared/code-block';
           <na-heading level="2">Override</na-heading>
           <na-text tone="muted">Set variables before including base — they are all !default:</na-text>
           <docs-code-block [code]="override" />
+          <na-text tone="muted" size="sm">
+            With the compiled CSS entry, override the mirrored
+            <code>--na-*</code> custom properties at runtime instead — no Sass
+            rebuild required.
+          </na-text>
         </na-stack>
         <na-alert tone="info" title="Bar-less alerts">
           Alert tone colors the title text — there is no side bar or background

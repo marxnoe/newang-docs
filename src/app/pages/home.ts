@@ -4,7 +4,6 @@ import {
   NaBadge,
   NaButton,
   NaCard,
-  NaCode,
   NaGrid,
   NaHeading,
   NaPage,
@@ -20,7 +19,6 @@ import { CodeBlock } from '../shared/code-block';
     NaBadge,
     NaButton,
     NaCard,
-    NaCode,
     NaGrid,
     NaHeading,
     NaPage,
@@ -35,7 +33,7 @@ import { CodeBlock } from '../shared/code-block';
         <na-stack gap="md">
           <na-row gap="md" align="center">
             <na-heading level="1">newAng</na-heading>
-            <na-badge tone="lime">v1.3.2</na-badge>
+            <na-badge tone="lime">v1.4.0</na-badge>
             <na-badge tone="neutral">dark-only</na-badge>
           </na-row>
           <na-text size="lg" tone="muted">
@@ -49,7 +47,14 @@ import { CodeBlock } from '../shared/code-block';
             <a routerLink="/components/button" style="text-decoration:none">
               <na-button variant="secondary">Browse components</na-button>
             </a>
+            <a routerLink="/docs/migration" style="text-decoration:none">
+              <na-button variant="ghost">Migrating from NG-ZORRO?</na-button>
+            </a>
           </na-row>
+          <na-text tone="accent" size="sm">
+            New in 1.4: upload, the icon set, copyable links, projected tabs and
+            a plain-CSS install path.
+          </na-text>
         </na-stack>
 
         <na-grid cols="3" gap="md">
@@ -60,7 +65,7 @@ import { CodeBlock } from '../shared/code-block';
             <na-text tone="muted">1px borders for elevation. Focus is a 2px lime outline. Gradients and glows are banned.</na-text>
           </na-card>
           <na-card title="Inputs, not CSS" subtitle="Zero consumer stylesheets">
-            <na-text tone="muted">Spacing, type and layout live in gap, tone and variant inputs.</na-text>
+            <na-text tone="muted">Spacing, type and layout live in gap, tone and variant inputs. Ships with Sass and a precompiled CSS entry.</na-text>
           </na-card>
         </na-grid>
 
