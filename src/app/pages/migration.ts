@@ -40,7 +40,7 @@ import { CodeBlock } from '../shared/code-block';
           <na-heading level="2">Form controls</na-heading>
           <na-text tone="muted">
             Use the same <na-code>[(ngModel)]</na-code> and <na-code>formControl</na-code> bindings
-            you already have. The three value controls below implement
+            you already have. The value controls below implement
             <na-code>ControlValueAccessor</na-code>; native inputs keep their built-in CVA through
             <na-code>naInput</na-code>.
           </na-text>
@@ -64,21 +64,32 @@ import { CodeBlock } from '../shared/code-block';
         </na-stack>
 
         <na-stack gap="md">
-          <na-heading level="2">Not covered yet</na-heading>
+          <na-heading level="2">Still not covered</na-heading>
           <na-text tone="muted">
-            newAng is intentionally smaller than NG-ZORRO. There is no date picker, dropdown menu,
-            tree, calendar or notification toast yet. For simple selects, use a native
-            <na-code>&lt;select naInput&gt;</na-code> inside <na-code>na-field</na-code>. For
-            uploads, icons, copyable links and closable alerts, use the new 1.4 primitives.
+            newAng is intentionally smaller than NG-ZORRO. There is no tree, calendar, carousel,
+            transfer or rich-text editor. The 1.5 parity set now covers select, datepicker,
+            dropdown, drawer, message/notification, popconfirm, pagination and skeleton. For
+            uploads, icons, copyable links and closable alerts, keep using the 1.4 primitives.
           </na-text>
-          <na-alert tone="success" title="The 1.4 migration primitives">
+          <na-alert tone="success" title="The 1.5 migration primitives">
             <na-stack gap="sm">
               <na-text
-                ><na-code>na-upload</na-code> replaces the common upload widget with progress,
-                limits and per-file cancel/remove.</na-text
+                ><na-code>na-select</na-code> replaces nz-select with CVA, disabled options and a
+                keyboard-driven listbox.</na-text
               >
-              <na-text><na-code>na-icon</na-code> covers the closed 20-glyph set.</na-text>
-              <na-text><na-code>na-link copyable</na-code> replaces copyable typography.</na-text>
+              <na-text
+                ><na-code>na-datepicker</na-code> keeps the native date picker and adds min/max,
+                label, hint and error.</na-text
+              >
+              <na-text
+                ><na-code>na-dropdown</na-code>, <na-code>na-drawer</na-code> and
+                <na-code>na-popconfirm</na-code> cover menus, side panels and confirmations.</na-text
+              >
+              <na-text
+                ><na-code>NaMessage</na-code> / <na-code>NaNotification</na-code> cover toasts,
+                while <na-code>na-pagination</na-code> and <na-code>na-skeleton</na-code> round out
+                the set.</na-text
+              >
             </na-stack>
           </na-alert>
         </na-stack>
@@ -112,9 +123,24 @@ export class MigrationPage {
       note: 'Native input, no wrapper component.',
     },
     {
-      zorro: 'nz-select',
-      newang: '<select naInput> + <na-field>',
-      note: 'Simple cases only; no custom dropdown yet.',
+      zorro: 'nz-select / nz-option',
+      newang: '<na-select [options]>',
+      note: 'CVA; custom listbox with disabled options and keyboard support.',
+    },
+    {
+      zorro: 'nz-date-picker',
+      newang: '<na-datepicker>',
+      note: 'CVA; keeps the native date picker, min/max ISO bounds.',
+    },
+    {
+      zorro: 'nz-dropdown',
+      newang: '<na-dropdown [items]>',
+      note: 'Keyboard menu; disabled and danger items.',
+    },
+    {
+      zorro: 'nz-drawer',
+      newang: '<na-drawer [open]>',
+      note: 'left/right position; Escape and backdrop emit (closed).',
     },
     { zorro: 'nz-upload', newang: '<na-upload>', note: 'Picker + drag, progress, limit, accept.' },
     { zorro: 'nz-icon', newang: '<na-icon>', note: 'Closed 20-glyph set.' },
@@ -143,6 +169,31 @@ export class MigrationPage {
       newang: '<na-modal [open]>',
       note: 'Escape, backdrop and ✕ emit (closed).',
     },
+    {
+      zorro: 'nz-popconfirm',
+      newang: '<na-popconfirm>',
+      note: 'Projected trigger; confirmed/cancelled outputs.',
+    },
+    {
+      zorro: 'nz-message',
+      newang: 'NaMessage service',
+      note: 'aria-live stack; duration 0 is sticky.',
+    },
+    {
+      zorro: 'nz-notification',
+      newang: 'NaNotification service',
+      note: 'Larger message variant; 6s default.',
+    },
+    {
+      zorro: 'nz-pagination',
+      newang: '<na-pagination>',
+      note: '1-based page model; bounded window.',
+    },
+    {
+      zorro: 'nz-skeleton',
+      newang: '<na-skeleton>',
+      note: 'lines, circle, width/height and optional label.',
+    },
     { zorro: 'nz-tooltip', newang: 'naTooltip="…"', note: 'Attribute directive.' },
   ];
 
@@ -150,12 +201,22 @@ export class MigrationPage {
     { control: 'na-switch', binding: 'Yes', note: 'boolean value.' },
     { control: 'na-checkbox', binding: 'Yes', note: 'boolean value.' },
     { control: 'na-radio-group', binding: 'Yes', note: 'string | number value; options array.' },
+    { control: 'na-select', binding: 'Yes', note: 'string | number value; options array.' },
+    {
+      control: 'na-datepicker',
+      binding: 'Yes',
+      note: 'YYYY-MM-DD string; Date accepted on write.',
+    },
     {
       control: 'input / textarea / select[naInput]',
       binding: 'Native',
       note: 'Use na-field for label, hint and error.',
     },
-    { control: 'na-upload', binding: 'No', note: 'Not a form control; use its outputs.' },
+    {
+      control: 'na-upload, na-dropdown, na-popconfirm',
+      binding: 'No',
+      note: 'Driven by inputs and outputs.',
+    },
     { control: 'na-button, na-tabs', binding: 'No', note: 'Driven by inputs and outputs.' },
   ];
 
