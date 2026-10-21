@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import {
@@ -11,7 +12,10 @@ import {
   NaCard,
   NaCheckbox,
   NaCode,
+  NaDatepicker,
   NaDivider,
+  NaDrawer,
+  NaDropdown,
   NaEmptyState,
   NaField,
   NaFooter,
@@ -23,11 +27,17 @@ import {
   NaInput,
   NaLink,
   NaList,
+  NaMessage,
   NaModal,
+  NaNotification,
   NaPage,
+  NaPagination,
+  NaPopconfirm,
   NaProgress,
   NaRadioGroup,
   NaRow,
+  NaSelect,
+  NaSkeleton,
   NaSpacer,
   NaSpinner,
   NaSplit,
@@ -41,7 +51,7 @@ import {
   NaTooltip,
   NaUpload,
 } from 'newang';
-import type { NaIconName, NaUploadChangeEvent } from 'newang';
+import type { NaDropdownItem, NaIconName, NaSelectOption, NaUploadChangeEvent } from 'newang';
 import { COMPONENT_DOCS } from '../data/component-docs';
 import { DemoCard } from '../shared/demo-card';
 import { CodeBlock } from '../shared/code-block';
@@ -50,6 +60,7 @@ import { ApiTable } from '../shared/api-table';
 @Component({
   imports: [
     RouterLink,
+    ReactiveFormsModule,
     NaAlert,
     NaAvatar,
     NaBadge,
@@ -58,7 +69,10 @@ import { ApiTable } from '../shared/api-table';
     NaCard,
     NaCheckbox,
     NaCode,
+    NaDatepicker,
     NaDivider,
+    NaDrawer,
+    NaDropdown,
     NaEmptyState,
     NaField,
     NaFooter,
@@ -72,9 +86,13 @@ import { ApiTable } from '../shared/api-table';
     NaList,
     NaModal,
     NaPage,
+    NaPagination,
+    NaPopconfirm,
     NaProgress,
     NaRadioGroup,
     NaRow,
+    NaSelect,
+    NaSkeleton,
     NaSpacer,
     NaSpinner,
     NaSplit,
@@ -241,6 +259,40 @@ import { ApiTable } from '../shared/api-table';
                     <na-text tone="muted" size="sm">
                       Billing: {{ cycle() }} · view: {{ view() }}
                     </na-text>
+                  </na-stack>
+                </docs-demo-card>
+              }
+              @case ('select') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-select placeholder="Choose a plan" [options]="selectOptions" [(value)]="selectValue" />
+                    <na-text tone="muted" size="sm">Selected: {{ selectValue() ?? 'none' }}</na-text>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="md">
+                    <na-select placeholder="Choose a plan" [options]="selectOptions" [formControl]="selectControl" />
+                    <na-text tone="muted" size="sm">formControl value: {{ selectControlValue() ?? 'none' }}</na-text>
+                  </na-stack>
+                </docs-demo-card>
+              }
+              @case ('datepicker') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-datepicker
+                      label="Start date"
+                      hint="Earliest available slot"
+                      min="2026-01-01"
+                      max="2026-12-31"
+                      [(value)]="startDate"
+                    />
+                    <na-text tone="muted" size="sm">Selected: {{ startDate() || 'none' }}</na-text>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="md">
+                    <na-datepicker label="Launch date" required [formControl]="launchDateControl" />
+                    <na-text tone="muted" size="sm">formControl value: {{ launchDateValue() || 'none' }}</na-text>
                   </na-stack>
                 </docs-demo-card>
               }
@@ -428,7 +480,7 @@ import { ApiTable } from '../shared/api-table';
               @case ('badge') {
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
                   <na-row gap="md">
-                    <na-badge tone="lime">v1.4.0</na-badge>
+                    <na-badge tone="lime">v1.5.0</na-badge>
                     <na-badge tone="neutral">draft</na-badge>
                     <na-badge tone="success">live</na-badge>
                     <na-badge tone="warning">beta</na-badge>
@@ -510,6 +562,17 @@ import { ApiTable } from '../shared/api-table';
                   />
                 </docs-demo-card>
               }
+              @case ('pagination') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-pagination [total]="95" [pageSize]="10" [(page)]="paginationPage" />
+                    <na-text tone="muted" size="sm">Page {{ paginationPage() }} of 10</na-text>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-pagination [total]="24" [pageSize]="5" [(page)]="paginationSmallPage" disabled />
+                </docs-demo-card>
+              }
               @case ('avatar') {
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
                   <na-row gap="md" align="center">
@@ -542,6 +605,17 @@ import { ApiTable } from '../shared/api-table';
                   </na-stack>
                 </docs-demo-card>
               }
+              @case ('skeleton') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-skeleton [lines]="3" />
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-row gap="sm" align="center">
+                    <na-skeleton circle [height]="40" label="Loading profile" />
+                    <na-skeleton width="200px" [height]="40" />
+                  </na-row>
+                </docs-demo-card>
+              }
               @case ('modal') {
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
                   <na-button variant="danger" (pressed)="modalOpen.set(true)">Delete</na-button>
@@ -554,6 +628,62 @@ import { ApiTable } from '../shared/api-table';
                       </na-row>
                     </na-stack>
                   </na-modal>
+                </docs-demo-card>
+              }
+              @case ('drawer') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-row gap="md">
+                      <na-button variant="secondary" (pressed)="openDrawer('right')">Open right</na-button>
+                      <na-button variant="secondary" (pressed)="openDrawer('left')">Open left</na-button>
+                    </na-row>
+                    <na-text tone="muted" size="sm">
+                      {{ drawerOpen() ? 'Drawer open on the ' + drawerSide() : 'Drawer closed.' }}
+                    </na-text>
+                  </na-stack>
+                  <na-drawer
+                    title="Filters"
+                    [open]="drawerOpen()"
+                    [position]="drawerSide()"
+                    (closed)="drawerOpen.set(false)"
+                  >
+                    <na-stack gap="md">
+                      <na-text>Drawer body. The overlay stays fixed to the viewport.</na-text>
+                      <na-field label="Workspace">
+                        <input naInput value="Acme" />
+                      </na-field>
+                      <na-button size="sm" (pressed)="drawerOpen.set(false)">Close</na-button>
+                    </na-stack>
+                  </na-drawer>
+                </docs-demo-card>
+              }
+              @case ('dropdown') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-row gap="md" align="center">
+                      <na-dropdown label="Actions" [items]="dropdownItems" (selected)="onDropdownSelect($event)" />
+                      <na-dropdown label="Disabled" [items]="dropdownItems" disabled />
+                      <na-text tone="muted" size="sm">Last action: {{ dropdownAction() }}</na-text>
+                    </na-row>
+                  </na-stack>
+                </docs-demo-card>
+              }
+              @case ('popconfirm') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-row gap="md" align="center">
+                      <na-popconfirm
+                        message="Delete this draft?"
+                        confirmLabel="Delete"
+                        cancelLabel="Keep"
+                        (confirmed)="onPopconfirm(true)"
+                        (cancelled)="onPopconfirm(false)"
+                      >
+                        <na-button variant="danger">Delete draft</na-button>
+                      </na-popconfirm>
+                      <na-text tone="muted" size="sm">{{ popconfirmStatus() }}</na-text>
+                    </na-row>
+                  </na-stack>
                 </docs-demo-card>
               }
               @case ('tabs') {
@@ -593,6 +723,30 @@ import { ApiTable } from '../shared/api-table';
               @case ('tooltip') {
                 <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
                   <na-button variant="secondary" naTooltip="Saved to drafts">Hover me</na-button>
+                </docs-demo-card>
+              }
+              @case ('message') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-row gap="md">
+                      <na-button (pressed)="showSuccessMessage()">Success message</na-button>
+                      <na-button variant="danger" (pressed)="showStickyError()">Sticky error</na-button>
+                      <na-button variant="secondary" (pressed)="dismissLastMessage()">Dismiss last</na-button>
+                      <na-button variant="ghost" (pressed)="clearMessages()">Clear all</na-button>
+                    </na-row>
+                    <na-text tone="muted" size="sm">
+                      Last id: {{ lastMessageId() ?? 'none' }}. Toasts stack in the top-right corner.
+                    </na-text>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-stack gap="md">
+                    <na-row gap="md">
+                      <na-button (pressed)="showNotification()">Notification</na-button>
+                      <na-button variant="secondary" (pressed)="showStickyNotification()">Sticky notification</na-button>
+                    </na-row>
+                    <na-text tone="muted" size="sm">Notifications use the larger layout and an optional title.</na-text>
+                  </na-stack>
                 </docs-demo-card>
               }
               @case ('header') {
@@ -682,6 +836,37 @@ export class ComponentDocPage {
   protected readonly cycle = signal<string | number | undefined>('monthly');
   protected readonly view = signal<string | number | undefined>('list');
   protected readonly uploadStatus = signal('No file selected yet.');
+  protected readonly selectOptions: NaSelectOption[] = [
+    { value: 'free', label: 'Free' },
+    { value: 'pro', label: 'Pro' },
+    { value: 'team', label: 'Team' },
+    { value: 'enterprise', label: 'Enterprise', disabled: true },
+  ];
+  protected readonly selectValue = signal<string | number | undefined>('pro');
+  protected readonly selectControl = new FormControl<string | number | undefined>('team');
+  protected readonly selectControlValue = toSignal(this.selectControl.valueChanges, {
+    initialValue: this.selectControl.value,
+  });
+  protected readonly startDate = signal('');
+  protected readonly launchDateControl = new FormControl<string | null>('2026-11-01');
+  protected readonly launchDateValue = toSignal(this.launchDateControl.valueChanges, {
+    initialValue: this.launchDateControl.value,
+  });
+  protected readonly dropdownItems: NaDropdownItem[] = [
+    { label: 'Edit', value: 'edit' },
+    { label: 'Duplicate', value: 'duplicate' },
+    { label: 'Archive', value: 'archive', disabled: true },
+    { label: 'Delete', value: 'delete', danger: true },
+  ];
+  protected readonly dropdownAction = signal('none');
+  protected readonly drawerOpen = signal(false);
+  protected readonly drawerSide = signal<'left' | 'right'>('right');
+  protected readonly popconfirmStatus = signal('Nothing confirmed yet.');
+  protected readonly paginationPage = signal(3);
+  protected readonly paginationSmallPage = signal(2);
+  protected readonly lastMessageId = signal<number | null>(null);
+  private readonly messages = inject(NaMessage);
+  private readonly notifications = inject(NaNotification);
 
   protected readonly iconNames: NaIconName[] = [
     'inbox',
@@ -726,5 +911,51 @@ export class ComponentDocPage {
 
   protected onUploadProgress(event: NaUploadChangeEvent): void {
     this.uploadStatus.set(`${event.file.name}: uploading ${event.percent}%`);
+  }
+
+  protected openDrawer(side: 'left' | 'right'): void {
+    this.drawerSide.set(side);
+    this.drawerOpen.set(true);
+  }
+
+  protected onDropdownSelect(item: NaDropdownItem): void {
+    this.dropdownAction.set(item.label);
+  }
+
+  protected onPopconfirm(confirmed: boolean): void {
+    this.popconfirmStatus.set(confirmed ? 'Draft deleted (demo).' : 'Kept the draft.');
+  }
+
+  protected showSuccessMessage(): void {
+    this.lastMessageId.set(this.messages.success('Draft saved'));
+  }
+
+  protected showStickyError(): void {
+    this.lastMessageId.set(this.messages.error('Upload failed', { duration: 0 }));
+  }
+
+  protected dismissLastMessage(): void {
+    const id = this.lastMessageId();
+    if (id === null) return;
+    this.messages.dismiss(id);
+    this.lastMessageId.set(null);
+  }
+
+  protected clearMessages(): void {
+    this.messages.clear();
+    this.lastMessageId.set(null);
+  }
+
+  protected showNotification(): void {
+    this.lastMessageId.set(this.notifications.success('Export ready', { title: 'Downloads' }));
+  }
+
+  protected showStickyNotification(): void {
+    this.lastMessageId.set(
+      this.notifications.warning('Review required before publishing', {
+        title: 'Workspace',
+        duration: 0,
+      }),
+    );
   }
 }

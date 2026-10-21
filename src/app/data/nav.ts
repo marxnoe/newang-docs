@@ -32,6 +32,8 @@ export const DOCS_GROUPS: DocsNavGroup[] = [
       { slug: 'components/switch', label: 'Switch', selector: 'na-switch' },
       { slug: 'components/checkbox', label: 'Checkbox', selector: 'na-checkbox' },
       { slug: 'components/radio-group', label: 'Radio group', selector: 'na-radio-group' },
+      { slug: 'components/select', label: 'Select', selector: 'na-select' },
+      { slug: 'components/datepicker', label: 'Datepicker', selector: 'na-datepicker' },
       { slug: 'components/upload', label: 'Upload', selector: 'na-upload' },
     ],
   },
@@ -67,18 +69,34 @@ export const DOCS_GROUPS: DocsNavGroup[] = [
       { slug: 'components/alert', label: 'Alert', selector: 'na-alert' },
       { slug: 'components/table', label: 'Table', selector: 'na-table' },
       { slug: 'components/list', label: 'List', selector: 'na-list' },
-      { slug: 'components/breadcrumbs', label: 'Breadcrumbs', selector: 'na-breadcrumbs' },
       { slug: 'components/avatar', label: 'Avatar', selector: 'na-avatar' },
       { slug: 'components/spinner', label: 'Spinner', selector: 'na-spinner' },
       { slug: 'components/progress', label: 'Progress', selector: 'na-progress' },
+      { slug: 'components/skeleton', label: 'Skeleton', selector: 'na-skeleton' },
+    ],
+  },
+  {
+    title: 'Navigation',
+    items: [
+      { slug: 'components/breadcrumbs', label: 'Breadcrumbs', selector: 'na-breadcrumbs' },
+      { slug: 'components/pagination', label: 'Pagination', selector: 'na-pagination' },
     ],
   },
   {
     title: 'Overlay',
     items: [
       { slug: 'components/modal', label: 'Modal', selector: 'na-modal' },
+      { slug: 'components/drawer', label: 'Drawer', selector: 'na-drawer' },
+      { slug: 'components/dropdown', label: 'Dropdown', selector: 'na-dropdown' },
+      { slug: 'components/popconfirm', label: 'Popconfirm', selector: 'na-popconfirm' },
       { slug: 'components/tabs', label: 'Tabs', selector: 'na-tabs' },
       { slug: 'components/tooltip', label: 'Tooltip', selector: 'naTooltip' },
+    ],
+  },
+  {
+    title: 'Feedback',
+    items: [
+      { slug: 'components/message', label: 'Message & notification', selector: 'NaMessage' },
     ],
   },
   {
