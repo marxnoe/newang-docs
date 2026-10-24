@@ -22,7 +22,6 @@ npm run build    # output in dist/newang-docs/browser
 - `src/app/pages/component-doc-page.ts` — renders one isolated live demo per component
   from that data (`@switch` on slug, signals for interactivity).
 - `src/app/pages/install.ts` — Sass and plain-CSS install paths.
-- `src/app/pages/migration.ts` — NG-ZORRO → newAng prop map, P2 parity controls and CVA compatibility table.
 - `src/app/shared/` — `demo-card`, `code-block` (copy button), `api-table` (backed by `na-table`).
 
 The docs site itself keeps SCSS (`src/styles.scss`) so it can demo token overrides;
