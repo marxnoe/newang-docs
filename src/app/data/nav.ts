@@ -15,7 +15,6 @@ export const DOCS_GROUPS: DocsNavGroup[] = [
     items: [
       { slug: '', label: 'Overview' },
       { slug: 'docs/install', label: 'Install' },
-      { slug: 'docs/migration', label: 'Migrate from NG-ZORRO' },
       { slug: 'docs/zero-css', label: 'Zero-CSS usage' },
       { slug: 'docs/theme', label: 'Theme' },
     ],

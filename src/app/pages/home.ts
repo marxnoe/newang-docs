@@ -47,9 +47,6 @@ import { CodeBlock } from '../shared/code-block';
             <a routerLink="/components/button" style="text-decoration:none">
               <na-button variant="secondary">Browse components</na-button>
             </a>
-            <a routerLink="/docs/migration" style="text-decoration:none">
-              <na-button variant="ghost">Migrating from NG-ZORRO?</na-button>
-            </a>
           </na-row>
           <na-text tone="accent" size="sm">
             New in 1.5: select, datepicker, dropdown, drawer, message/notification,
