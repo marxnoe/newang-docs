@@ -33,7 +33,7 @@ import { CodeBlock } from '../shared/code-block';
         <na-stack gap="md">
           <na-row gap="md" align="center">
             <na-heading level="1">newAng</na-heading>
-            <na-badge tone="lime">v1.5.0</na-badge>
+            <na-badge tone="lime">v1.6.1</na-badge>
             <na-badge tone="neutral">dark-only</na-badge>
           </na-row>
           <na-text size="lg" tone="muted">
@@ -49,8 +49,7 @@ import { CodeBlock } from '../shared/code-block';
             </a>
           </na-row>
           <na-text tone="accent" size="sm">
-            New in 1.5: select, datepicker, dropdown, drawer, message/notification,
-            popconfirm, pagination and skeleton.
+            New in 1.6: code input for share codes, PINs and one-time codes.
           </na-text>
         </na-stack>
 

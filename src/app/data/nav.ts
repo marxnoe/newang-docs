@@ -31,6 +31,7 @@ export const DOCS_GROUPS: DocsNavGroup[] = [
       { slug: 'components/switch', label: 'Switch', selector: 'na-switch' },
       { slug: 'components/checkbox', label: 'Checkbox', selector: 'na-checkbox' },
       { slug: 'components/radio-group', label: 'Radio group', selector: 'na-radio-group' },
+      { slug: 'components/code-input', label: 'Code input', selector: 'na-code-input' },
       { slug: 'components/select', label: 'Select', selector: 'na-select' },
       { slug: 'components/datepicker', label: 'Datepicker', selector: 'na-datepicker' },
       { slug: 'components/upload', label: 'Upload', selector: 'na-upload' },

@@ -205,6 +205,47 @@ export const COMPONENT_DOCS: Record<string, ComponentDoc> = {
     ],
     donts: ['Do not use na-radio elements directly — drive the group via options.'],
   },
+  'code-input': {
+    slug: 'code-input',
+    name: 'Code input',
+    selector: 'na-code-input',
+    area: 'Forms',
+    description: 'Segmented entry with one box per character, for share codes, PINs and one-time codes. Typing advances, Backspace on an empty box steps back, arrow keys move, and paste or SMS autofill spreads across the boxes. [(value)] and formControl both work.',
+    whenToUse: 'Short fixed-length codes people copy from somewhere else: share codes, invite codes, PINs, 2FA codes. Use a plain input[naInput] for anything of variable length.',
+    zeroCssRule: 'Set length and charset — never line up single-character inputs yourself.',
+    demos: [
+      {
+        title: 'Share code',
+        description: 'Letters are uppercased and anything that is not a letter or digit is dropped. (completed) fires once every box is filled, so you can open the code without a button.',
+        code: `<na-code-input\n  label="Share code"\n  [length]="5"\n  [(value)]="code"\n  (completed)="open($event)"\n/>`,
+      },
+      {
+        title: 'Numeric PIN with an error',
+        description: 'charset="numeric" shows the number keyboard on phones and ignores letters. invalid paints every box with the danger border, e.g. after a wrong code.',
+        code: `<na-field label="PIN" error="Wrong PIN">\n  <na-code-input label="PIN" [length]="4" charset="numeric" [invalid]="true" [(value)]="pin" />\n</na-field>`,
+      },
+      {
+        title: 'Reactive forms',
+        description: 'na-code-input implements ControlValueAccessor, so formControl.disable() and validators work without an adapter.',
+        code: `<na-code-input label="Invite code" [length]="6" [formControl]="inviteControl" />`,
+      },
+    ],
+    api: [
+      { name: 'length', type: 'number', default: '6', description: 'Number of boxes / characters.' },
+      { name: 'charset', type: "'alphanumeric' | 'numeric'", default: "'alphanumeric'", description: 'Characters that are accepted; numeric also sets inputmode="numeric".' },
+      { name: 'uppercase', type: 'boolean', default: 'true', description: 'Uppercase letters as they are typed or pasted.' },
+      { name: 'value', type: 'string (model)', default: "''", description: 'Current code; also driven by formControl.' },
+      { name: 'invalid', type: 'boolean', default: 'false', description: 'Danger border on every box.' },
+      { name: 'disabled', type: 'boolean', default: 'false', description: 'Disable all boxes.' },
+      { name: 'label', type: 'string', default: "''", description: 'Accessible name for the group of boxes.' },
+      { name: '(completed)', type: 'string', default: '—', description: 'Emits the code once every box is filled.' },
+      { name: 'focus() / clear()', type: 'method', default: '—', description: 'Focus the first empty box / empty the code and focus the first box.' },
+    ],
+    donts: [
+      'Do not use it for passwords or codes of variable length.',
+      'Do not add your own paste handling — paste and SMS autofill (autocomplete="one-time-code") are built in.',
+    ],
+  },
   select: {
     slug: 'select',
     name: 'Select',
