@@ -12,6 +12,7 @@ import {
   NaCard,
   NaCheckbox,
   NaCode,
+  NaCodeInput,
   NaDatepicker,
   NaDivider,
   NaDrawer,
@@ -69,6 +70,7 @@ import { ApiTable } from '../shared/api-table';
     NaCard,
     NaCheckbox,
     NaCode,
+    NaCodeInput,
     NaDatepicker,
     NaDivider,
     NaDrawer,
@@ -259,6 +261,31 @@ import { ApiTable } from '../shared/api-table';
                     <na-text tone="muted" size="sm">
                       Billing: {{ cycle() }} · view: {{ view() }}
                     </na-text>
+                  </na-stack>
+                </docs-demo-card>
+              }
+              @case ('code-input') {
+                <docs-demo-card [title]="d.demos[0].title" [description]="d.demos[0].description" [code]="d.demos[0].code">
+                  <na-stack gap="md">
+                    <na-code-input label="Share code" [length]="5" [(value)]="shareCode" (completed)="openedCode.set($event)" />
+                    <na-text tone="muted" size="sm">
+                      Value: {{ shareCode() || 'empty' }} · completed: {{ openedCode() || 'not yet' }}
+                    </na-text>
+                  </na-stack>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[1].title" [description]="d.demos[1].description" [code]="d.demos[1].code">
+                  <na-field label="PIN" error="Wrong PIN">
+                    <na-code-input label="PIN" [length]="4" charset="numeric" [invalid]="true" [(value)]="pin" />
+                  </na-field>
+                </docs-demo-card>
+                <docs-demo-card [title]="d.demos[2].title" [description]="d.demos[2].description" [code]="d.demos[2].code">
+                  <na-stack gap="md">
+                    <na-code-input label="Invite code" [length]="6" [formControl]="inviteControl" />
+                    <na-row gap="sm">
+                      <na-button size="sm" variant="secondary" (pressed)="inviteControl.disable()">Disable</na-button>
+                      <na-button size="sm" variant="secondary" (pressed)="inviteControl.enable()">Enable</na-button>
+                    </na-row>
+                    <na-text tone="muted" size="sm">formControl value: {{ inviteValue() || 'empty' }}</na-text>
                   </na-stack>
                 </docs-demo-card>
               }
@@ -848,6 +875,13 @@ export class ComponentDocPage {
     initialValue: this.selectControl.value,
   });
   protected readonly startDate = signal('');
+  protected readonly shareCode = signal('');
+  protected readonly openedCode = signal('');
+  protected readonly pin = signal('12');
+  protected readonly inviteControl = new FormControl<string>('NEW', { nonNullable: true });
+  protected readonly inviteValue = toSignal(this.inviteControl.valueChanges, {
+    initialValue: this.inviteControl.value,
+  });
   protected readonly launchDateControl = new FormControl<string | null>('2026-11-01');
   protected readonly launchDateValue = toSignal(this.launchDateControl.valueChanges, {
     initialValue: this.launchDateControl.value,
